@@ -7,6 +7,7 @@ The Axiom SDK provides a higher level abstraction in Typescript which helps you 
 - UniswapV2Twap - prove and read the TWAP of the ETH-USDC Uniswap V2 pool between any two historical blocks on-chain.
 - …
 
+### Part 1
 
 #### UniswapV2Twap.ts
 
@@ -115,11 +116,27 @@ Install using:
 For proving TWAP price you do the following:
 
 ```typescript
-    const uniswapV2Twap = new UniswapV2Twap()
+    const uniswapV2Twap = new UniswapV2Twap();
 
     const proof = uniswapV2Twap.verify(
+        startBlock: 10008576,
+        endBlock: 10008577,
+        proof: "0x..."
+    );
+
+    if (proof) {
+        const twapPrice = uniswapV2Twap.read(
+            startBlock: 10008576,
+            endBlock: 10008577,
+        );
+    }
 ```
 
 ### Overview of possible features
 
-- Prove TWAP price for any Uniswap V2 pool. While instantiating th
+- Prove TWAP price for any Uniswap V2/V3 pool. While instantiating the UniswapV2Twap class, you can pass in the Uniswap V2 pool address or the token addresses.
+- Read the nearest proven TWAP price in case the proof is not available for the block range you specified.
+- Derive Uniswap V3 LP position oracle for the TWAP price of the tokens in the pool. You can use this to assess the past
+  performance of your LP position, calculate markout PnL, etc.
+
+[Part 2](./utils.ts)
